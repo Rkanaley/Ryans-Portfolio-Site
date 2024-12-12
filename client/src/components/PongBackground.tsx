@@ -7,10 +7,16 @@ export default function PongBackground() {
   useEffect(() => {
     try {
       const canvas = canvasRef.current;
-      if (!canvas) return;
+      if (!canvas) {
+        console.error('Canvas element not found');
+        return;
+      }
 
       const ctx = canvas.getContext('2d');
-      if (!ctx) return;
+      if (!ctx) {
+        console.error('Could not get canvas context');
+        return;
+      }
 
       // Initialize game state first
       const gameState = {
