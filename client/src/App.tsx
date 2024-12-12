@@ -14,7 +14,11 @@ function App() {
         <Route path="/blog" component={Blog} />
         <Route path="/projects" component={Home} />
         <Route path="/contact" component={Contact} />
-        <Route>404 Page Not Found</Route>
+        <Route>
+          <div className="min-h-screen bg-background flex items-center justify-center">
+            <h1 className="text-4xl font-bold">404 Page Not Found</h1>
+          </div>
+        </Route>
       </Switch>
     </ThemeProvider>
   );

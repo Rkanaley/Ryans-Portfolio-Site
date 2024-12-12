@@ -1,12 +1,12 @@
 import { blogPosts } from "@/lib/constants";
 import BlogCard from "@/components/BlogCard";
 import { motion } from "framer-motion";
-import PongAnimation from "@/components/PongAnimation";
+import PongBackground from "@/components/PongBackground";
 
 export default function Blog() {
   return (
     <div className="min-h-screen bg-background">
-      <PongAnimation />
+      <PongBackground />
       <div className="relative z-10">
         <div className="container mx-auto px-4 py-24">
           <motion.div
