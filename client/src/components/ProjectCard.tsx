@@ -53,7 +53,13 @@ export default function ProjectCard({ title, description, technologies, link, de
       viewport={{ once: true }}
     >
       {demoType ? (
-        <ProjectDemo demoType={demoType}>{card}</ProjectDemo>
+        <ProjectDemo 
+          demoType={demoType}
+          title={`${title} Demo`}
+          description={`Interactive demo of ${description}`}
+        >
+          {card}
+        </ProjectDemo>
       ) : (
         card
       )}

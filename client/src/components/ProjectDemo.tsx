@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import PongBackground from './PongBackground';
 import Globe from './Globe';
@@ -9,6 +9,8 @@ import NorthernLights from './NorthernLights';
 interface ProjectDemoProps {
   demoType: 'pong' | 'globe' | 'pacman' | 'lights';
   children: React.ReactNode;
+  title?: string;
+  description?: string;
 }
 
 const demos = {
@@ -18,7 +20,7 @@ const demos = {
   lights: NorthernLights,
 };
 
-export default function ProjectDemo({ demoType, children }: ProjectDemoProps) {
+export default function ProjectDemo({ demoType, children, title = "Interactive Demo", description = "Try out this interactive demo" }: ProjectDemoProps) {
   const DemoComponent = demos[demoType];
 
   return (
@@ -27,6 +29,8 @@ export default function ProjectDemo({ demoType, children }: ProjectDemoProps) {
         {children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
+        <DialogTitle className="sr-only">{title}</DialogTitle>
+        <DialogDescription className="sr-only">{description}</DialogDescription>
         <div className="relative w-full h-full overflow-hidden rounded-lg">
           <DemoComponent />
         </div>
