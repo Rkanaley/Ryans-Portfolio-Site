@@ -70,7 +70,7 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+      <section className="relative z-10 py-20 px-4 md:px-8 max-w-7xl mx-auto bg-background/95">
         <h2 className="text-4xl font-bold mb-12 text-center">Projects</h2>
         <motion.div
           initial={{ opacity: 0 }}
