@@ -162,12 +162,18 @@ export default function PongBackground() {
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-10 w-full h-full bg-background/95">
+    <div className="fixed inset-0 -z-10 w-full h-full">
       <canvas 
         ref={canvasRef}
         className="w-full h-full"
-        style={{ background: 'transparent' }}
+        style={{ 
+          background: 'transparent',
+          position: 'absolute',
+          top: 0,
+          left: 0
+        }}
       />
+      <div className="absolute inset-0 bg-background/95" />
     </div>
   );
 }
