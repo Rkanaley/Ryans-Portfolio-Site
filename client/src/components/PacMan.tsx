@@ -1,57 +1,127 @@
 import { useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
 
 export default function PacMan() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     try {
-      const container = containerRef.current;
-      if (!container) {
-        throw new Error('Container not found');
+      const canvas = canvasRef.current;
+      if (!canvas) {
+        throw new Error('Canvas element not found');
       }
 
-      // Scene setup
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 15;
-
-      // Create renderer
-      const renderer = new THREE.WebGLRenderer({ 
-        antialias: true,
-        alpha: true
-      });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      container.appendChild(renderer.domElement);
-
-      // Create a simple yellow sphere for testing
-      const geometry = new THREE.SphereGeometry(5, 32, 32);
-      const material = new THREE.MeshBasicMaterial({ 
-        color: 0xffff00,
-        wireframe: true
-      });
-      const sphere = new THREE.Mesh(geometry, material);
-      scene.add(sphere);
-
-      // Simple animation
-      function animate() {
-        requestAnimationFrame(animate);
-        sphere.rotation.y += 0.01;
-        renderer.render(scene, camera);
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        throw new Error('Could not get canvas context');
       }
+
+      // Set canvas size
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      // Pac-Man properties
+      let pacX = 50;
+      let pacY = canvas.height / 2;
+      const pacRadius = 30;
+      const pacSpeed = 3;
+      let pacMouthAngle = 0;
+      let mouthDirection = 1;
+
+      // White balls properties
+      const balls: Array<{ x: number; y: number }> = [];
+      const ballRadius = 5;
+      const ballSpacing = 100;
+      
+      // Create balls in multiple rows
+      for (let j = 1; j <= 3; j++) {
+        for (let i = 1; i <= canvas.width / ballSpacing; i++) {
+          balls.push({ x: i * ballSpacing, y: j * 100 });
+        }
+      }
+
+      // Draw Pac-Man
+      function drawPacMan() {
+        ctx.beginPath();
+        ctx.arc(
+          pacX,
+          pacY,
+          pacRadius,
+          Math.PI * (0.2 + pacMouthAngle),
+          Math.PI * (1.8 - pacMouthAngle)
+        );
+        ctx.lineTo(pacX, pacY);
+        ctx.fillStyle = 'yellow';
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      // Draw balls
+      function drawBalls() {
+        ctx.fillStyle = 'white';
+        for (let i = balls.length - 1; i >= 0; i--) {
+          const ball = balls[i];
+          if (ball.x > pacX - pacRadius && ball.x < pacX + pacRadius &&
+              Math.abs(ball.y - pacY) < pacRadius) {
+            // Pac-Man "eats" the ball
+            balls.splice(i, 1);
+          } else {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ballRadius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+          }
+        }
+      }
+
+      // Handle keyboard input
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'ArrowUp') pacY = Math.max(pacRadius, pacY - 20);
+        if (e.key === 'ArrowDown') pacY = Math.min(canvas.height - pacRadius, pacY + 20);
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+
+      // Animation loop
+      let animationFrameId: number;
+
+      function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Update Pac-Man position
+        pacX += pacSpeed;
+        if (pacX - pacRadius > canvas.width) {
+          pacX = -pacRadius;
+        }
+
+        // Animate Pac-Man's mouth
+        pacMouthAngle += 0.05 * mouthDirection;
+        if (pacMouthAngle > 0.3 || pacMouthAngle < 0) {
+          mouthDirection *= -1;
+        }
+
+        drawPacMan();
+        drawBalls();
+
+        animationFrameId = requestAnimationFrame(update);
+      }
+
+      // Handle window resize
+      const handleResize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+
+      window.addEventListener('resize', handleResize);
 
       // Start animation
-      animate();
+      update();
 
       // Cleanup
       return () => {
-        if (container && renderer.domElement) {
-          container.removeChild(renderer.domElement);
-        }
-        geometry.dispose();
-        material.dispose();
-        renderer.dispose();
+        cancelAnimationFrame(animationFrameId);
+        document.removeEventListener('keydown', handleKeyDown);
+        window.removeEventListener('resize', handleResize);
       };
     } catch (err) {
       console.error('Error in PacMan component:', err);
@@ -63,5 +133,11 @@ export default function PacMan() {
     return <div className="fixed inset-0 -z-10 flex items-center justify-center">Failed to load animation: {error}</div>;
   }
 
-  return <div ref={containerRef} className="fixed inset-0 -z-10" style={{ background: 'transparent' }} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 -z-10"
+      style={{ background: 'black' }}
+    />
+  );
 }
