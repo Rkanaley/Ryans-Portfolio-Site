@@ -71,3 +71,17 @@
     content: counter(step);
   }
 }
+
+/* Pong Animation Styles */
+body {
+  margin: 0;
+  background: #000;
+  overflow: hidden;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
