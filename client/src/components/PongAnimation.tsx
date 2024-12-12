@@ -39,12 +39,12 @@ const PongAnimation = () => {
       // Draw the ball
       ctx.beginPath();
       ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(48, 102, 190, 0.3)";
+      ctx.fillStyle = "#ffffff";
       ctx.fill();
       ctx.closePath();
 
       // Draw paddles
-      ctx.fillStyle = "rgba(48, 102, 190, 0.2)";
+      ctx.fillStyle = "#ffffff";
       ctx.fillRect(20, leftPaddleY, paddleWidth, paddleHeight); // Left paddle
       ctx.fillRect(
         canvas.width - 30,
