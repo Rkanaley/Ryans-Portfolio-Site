@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-const PongAnimation = () => {
+export default function PongAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -9,7 +9,7 @@ const PongAnimation = () => {
     
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    
+
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -23,18 +23,19 @@ const PongAnimation = () => {
     // Paddle properties
     const paddleWidth = 10;
     const paddleHeight = 100;
-    const paddleSpeed = 4;
     let leftPaddleY = canvas.height / 2 - paddleHeight / 2;
     let rightPaddleY = canvas.height / 2 - paddleHeight / 2;
-    
-    // Add smooth paddle movement
-    const movePaddle = (currentY: number, targetY: number, speed: number) => {
-      if (Math.abs(currentY - targetY) < speed) return currentY;
-      return currentY + (targetY > currentY ? speed : -speed);
-    };
+
+    // Mouse control
+    canvas.addEventListener("mousemove", (e) => {
+      leftPaddleY = e.clientY - paddleHeight / 2;
+      // Keep paddle within canvas bounds
+      leftPaddleY = Math.max(0, Math.min(canvas.height - paddleHeight, leftPaddleY));
+    });
 
     const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Draw the ball
       ctx.beginPath();
@@ -56,15 +57,6 @@ const PongAnimation = () => {
       // Move the ball
       ballX += ballSpeedX;
       ballY += ballSpeedY;
-
-      // Move paddles to follow the ball
-      const paddleTargetY = Math.min(
-        Math.max(ballY - paddleHeight / 2, 0),
-        canvas.height - paddleHeight
-      );
-      
-      leftPaddleY = movePaddle(leftPaddleY, paddleTargetY, paddleSpeed);
-      rightPaddleY = movePaddle(rightPaddleY, paddleTargetY, paddleSpeed);
 
       // Ball collision with top and bottom walls
       if (ballY + ballRadius > canvas.height || ballY - ballRadius < 0) {
@@ -96,19 +88,25 @@ const PongAnimation = () => {
         ballSpeedY = 2 * (Math.random() > 0.5 ? 1 : -1);
       }
 
+      // AI for right paddle
+      const paddleSpeed = 2;
+      const paddleCenter = rightPaddleY + paddleHeight / 2;
+      if (paddleCenter < ballY - 35) {
+        rightPaddleY += paddleSpeed;
+      }
+      if (paddleCenter > ballY + 35) {
+        rightPaddleY -= paddleSpeed;
+      }
+
       requestAnimationFrame(render);
     };
 
     render();
 
-    // Handle window resize
+    // Handle resize
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      ballX = canvas.width / 2;
-      ballY = canvas.height / 2;
-      leftPaddleY = canvas.height / 2 - paddleHeight / 2;
-      rightPaddleY = canvas.height / 2 - paddleHeight / 2;
     };
 
     window.addEventListener('resize', handleResize);
@@ -119,6 +117,4 @@ const PongAnimation = () => {
   }, []);
 
   return <canvas ref={canvasRef} />;
-};
-
-export default PongAnimation;
+}
