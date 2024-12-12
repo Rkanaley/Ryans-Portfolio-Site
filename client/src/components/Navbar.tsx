@@ -21,9 +21,10 @@ export default function Navbar() {
   }, []);
 
   const navItems = [
-    { label: "Home", href: "#" },
-    { label: "Projects", href: "#projects" },
-    { label: "Resume", href: "#resume" },
+    { label: "Home", href: "/" },
+    { label: "Blog", href: "/blog" },
+    { label: "Projects", href: "/#projects" },
+    { label: "Resume", href: "/#resume" },
   ];
 
   return (

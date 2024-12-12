@@ -19,9 +19,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      
-      {/* Hero Section with Pac-Man Animation */}
+      {/* Hero Section with Pong Animation */}
       <section className="relative h-screen flex items-center justify-center">
         <PongAnimation />
         <div className="absolute z-10 text-center">
