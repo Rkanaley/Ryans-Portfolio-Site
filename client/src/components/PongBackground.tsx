@@ -11,24 +11,11 @@ export default function PongBackground() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size with proper device pixel ratio
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-      canvas.style.width = `${rect.width}px`;
-      canvas.style.height = `${rect.height}px`;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    // Game objects
+    // Initialize game state first
     const gameState = {
       ball: {
-        x: canvas.width / 2,
-        y: canvas.height / 2,
+        x: 0,
+        y: 0,
         radius: 8,
         dx: 4,
         dy: 4
@@ -36,16 +23,48 @@ export default function PongBackground() {
       paddleHeight: 80,
       paddleWidth: 10,
       leftPaddle: {
-        y: canvas.height / 2 - 40,
+        y: 0,
         speed: 3,
         direction: 1
       },
       rightPaddle: {
-        y: canvas.height / 2 - 40,
+        y: 0,
         speed: 3,
         direction: 1
       }
     };
+
+    // Function to update positions
+    const updatePositions = (width: number, height: number) => {
+      gameState.ball.x = width / 2;
+      gameState.ball.y = height / 2;
+      gameState.leftPaddle.y = height / 2 - gameState.paddleHeight / 2;
+      gameState.rightPaddle.y = height / 2 - gameState.paddleHeight / 2;
+    };
+
+    // Set canvas size with proper device pixel ratio
+    const resize = () => {
+      const container = canvas.parentElement;
+      if (!container) return;
+      
+      const dpr = window.devicePixelRatio || 1;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      
+      ctx.scale(dpr, dpr);
+      
+      // Update game object positions
+      updatePositions(width, height);
+    };
+
+    // Initial resize
+    resize();
+    window.addEventListener('resize', resize);
 
     // Animation
     const animate = () => {
@@ -132,5 +151,13 @@ export default function PongBackground() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="fixed inset-0 -z-10" style={{ background: 'transparent' }} />;
+  return (
+    <div className="fixed inset-0 -z-10 w-full h-full">
+      <canvas 
+        ref={canvasRef}
+        className="w-full h-full"
+        style={{ background: 'transparent' }}
+      />
+    </div>
+  );
 }
