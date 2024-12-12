@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
+import ProjectFilters from "@/components/ProjectFilters";
 import { Card } from "@/components/ui/card";
 import PongAnimation from "@/components/PongAnimation";
 import ProjectCard from "@/components/ProjectCard";
@@ -10,10 +11,18 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const filteredProjects = useMemo(() => {
+    if (activeFilters.length === 0) return projects;
+    return projects.filter(project =>
+      activeFilters.some(filter => project.technologies.includes(filter))
+    );
+  }, [activeFilters]);
 
   if (!mounted) return null;
 
@@ -61,11 +70,21 @@ export default function Home() {
       {/* Projects Section */}
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold mb-12 text-center">Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard key={index} {...project} />
-          ))}
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <ProjectFilters
+            activeFilters={activeFilters}
+            setActiveFilters={setActiveFilters}
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard key={index} {...project} />
+            ))}
+          </div>
+        </motion.div>
       </section>
 
       {/* Resume Section */}
