@@ -11,6 +11,7 @@ function App() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/blog" component={Blog} />
+        <Route path="/projects" component={Home} />
         <Route>404 Page Not Found</Route>
       </Switch>
     </ThemeProvider>
