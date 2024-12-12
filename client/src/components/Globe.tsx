@@ -3,15 +3,29 @@ import * as THREE from 'three';
 
 export default function Globe() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const globeRef = useRef<THREE.Mesh | null>(null);
+  const frameIdRef = useRef<number>();
 
   useEffect(() => {
     if (!containerRef.current) return;
 
     // Scene setup
-    const scene = new THREE.Scene();
+    sceneRef.current = new THREE.Scene();
+    const scene = sceneRef.current;
+
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    camera.position.z = 15;
+
+    rendererRef.current = new THREE.WebGLRenderer({ 
+      antialias: true, 
+      alpha: true,
+      powerPreference: "high-performance"
+    });
+    const renderer = rendererRef.current;
     
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
@@ -22,8 +36,10 @@ export default function Globe() {
       wireframe: true,
       transparent: true,
       opacity: 0.8,
+      side: THREE.DoubleSide
     });
-    const globe = new THREE.Mesh(geometry, material);
+    globeRef.current = new THREE.Mesh(geometry, material);
+    const globe = globeRef.current;
     scene.add(globe);
 
     // Lighting
@@ -34,19 +50,20 @@ export default function Globe() {
     pointLight.position.set(10, 10, 10);
     scene.add(pointLight);
 
-    camera.position.z = 15;
-
     // Animation
-    const animate = () => {
-      requestAnimationFrame(animate);
-      globe.rotation.y += 0.002;
+    function animate() {
+      frameIdRef.current = requestAnimationFrame(animate);
+      if (globe) {
+        globe.rotation.y += 0.002;
+      }
       renderer.render(scene, camera);
-    };
+    }
 
     animate();
 
     // Handle resize
     const handleResize = () => {
+      if (!renderer || !camera) return;
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -54,9 +71,20 @@ export default function Globe() {
 
     window.addEventListener('resize', handleResize);
 
+    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
-      containerRef.current?.removeChild(renderer.domElement);
+      if (frameIdRef.current) {
+        cancelAnimationFrame(frameIdRef.current);
+      }
+      if (rendererRef.current && containerRef.current) {
+        containerRef.current.removeChild(rendererRef.current.domElement);
+      }
+      if (globeRef.current) {
+        globeRef.current.geometry.dispose();
+        (globeRef.current.material as THREE.Material).dispose();
+      }
+      renderer.dispose();
     };
   }, []);
 
