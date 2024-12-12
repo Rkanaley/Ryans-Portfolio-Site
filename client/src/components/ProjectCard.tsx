@@ -17,10 +17,10 @@ export default function ProjectCard({ title, description, technologies, link }: 
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
     >
-      <Card className="h-full flex flex-col">
+      <Card className="h-full flex flex-col hover:shadow-lg transition-shadow">
         <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <CardTitle className="text-xl font-bold">{title}</CardTitle>
+          <CardDescription className="text-muted-foreground">{description}</CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">
           <div className="flex flex-wrap gap-2">

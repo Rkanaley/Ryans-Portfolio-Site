@@ -18,6 +18,8 @@ export default function Home() {
   }, []);
 
   const filteredProjects = useMemo(() => {
+    console.log('Active filters:', activeFilters);
+    console.log('All projects:', projects);
     if (activeFilters.length === 0) return projects;
     return projects.filter(project =>
       activeFilters.some(filter => project.technologies.includes(filter))
