@@ -86,9 +86,16 @@
   height: 50%;
   top: 10%;
   left: -10%;
-  background: linear-gradient(90deg, transparent, rgba(0, 255, 128, 0.5), rgba(0, 128, 255, 0.7), transparent);
-  filter: blur(100px);
-  animation: auroraMove 10s infinite ease-in-out alternate;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(0, 255, 128, 0.3), 
+    rgba(48, 102, 190, 0.5),
+    rgba(0, 128, 255, 0.3), 
+    transparent
+  );
+  filter: blur(60px);
+  animation: auroraMove 15s infinite ease-in-out alternate;
+  mix-blend-mode: screen;
 }
 
 .aurora:nth-child(2) {
