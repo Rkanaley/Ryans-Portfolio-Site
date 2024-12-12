@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import PongBackground from "@/components/PongBackground";
+import PongAnimation from "@/components/PongAnimation";
 import { ArrowRight } from "lucide-react";
 import { SiGithub, SiLinkedin } from "react-icons/si";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      <PongBackground />
+      <PongAnimation />
       <div className="relative z-10">
         <div className="container mx-auto px-4">
           <div className="min-h-screen flex flex-col items-center justify-center">
