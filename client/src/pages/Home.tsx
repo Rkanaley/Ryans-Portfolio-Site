@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import AnimatedBackground from "@/components/AnimatedBackground";
+import PongBackground from "@/components/PongBackground";
 import ProjectCard from "@/components/ProjectCard";
 import Navbar from "@/components/Navbar";
 import { SiGithub, SiLinkedin } from "react-icons/si";
@@ -23,7 +23,7 @@ export default function Home() {
       
       {/* Hero Section with Pac-Man Animation */}
       <section className="relative h-screen flex items-center justify-center">
-        <AnimatedBackground />
+        <PongBackground />
         <div className="absolute z-10 text-center">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
