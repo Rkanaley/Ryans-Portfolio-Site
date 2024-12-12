@@ -72,16 +72,40 @@
   }
 }
 
-/* Pong Animation Styles */
-body {
-  margin: 0;
-  background: #000;
+/* Northern Lights Animation */
+.northern-lights {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
-canvas {
+.aurora {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
+  width: 120%;
+  height: 50%;
+  top: 10%;
+  left: -10%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 128, 0.5), rgba(0, 128, 255, 0.7), transparent);
+  filter: blur(100px);
+  animation: auroraMove 10s infinite ease-in-out alternate;
+}
+
+.aurora:nth-child(2) {
+  top: 30%;
+  animation-delay: 2s;
+}
+
+.aurora:nth-child(3) {
+  top: 50%;
+  animation-delay: 4s;
+}
+
+@keyframes auroraMove {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    transform: translateX(-50%) scale(1.2);
+  }
 }
