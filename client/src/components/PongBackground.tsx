@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 export default function PongBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationFrameRef = useRef<number>();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -10,97 +11,123 @@ export default function PongBackground() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size
+    // Set canvas size with proper device pixel ratio
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
     };
     resize();
     window.addEventListener('resize', resize);
 
     // Game objects
-    const ball = {
-      x: canvas.width / 2,
-      y: canvas.height / 2,
-      radius: 8,
-      dx: 4,
-      dy: 4
-    };
-
-    const paddleHeight = 80;
-    const paddleWidth = 10;
-    const leftPaddle = {
-      y: canvas.height / 2 - paddleHeight / 2,
-      speed: 3,
-      direction: 1
-    };
-    const rightPaddle = {
-      y: canvas.height / 2 - paddleHeight / 2,
-      speed: 3,
-      direction: 1
+    const gameState = {
+      ball: {
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        radius: 8,
+        dx: 4,
+        dy: 4
+      },
+      paddleHeight: 80,
+      paddleWidth: 10,
+      leftPaddle: {
+        y: canvas.height / 2 - 40,
+        speed: 3,
+        direction: 1
+      },
+      rightPaddle: {
+        y: canvas.height / 2 - 40,
+        speed: 3,
+        direction: 1
+      }
     };
 
     // Animation
-    function animate() {
+    const animate = () => {
       // Clear canvas
-      ctx.fillStyle = 'transparent';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw ball
       ctx.beginPath();
-      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctx.arc(gameState.ball.x, gameState.ball.y, gameState.ball.radius, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(48, 102, 190, 0.2)';
       ctx.fill();
       ctx.closePath();
 
       // Draw paddles
       ctx.fillStyle = 'rgba(48, 102, 190, 0.15)';
-      ctx.fillRect(0, leftPaddle.y, paddleWidth, paddleHeight);
-      ctx.fillRect(canvas.width - paddleWidth, rightPaddle.y, paddleWidth, paddleHeight);
+      ctx.fillRect(0, gameState.leftPaddle.y, gameState.paddleWidth, gameState.paddleHeight);
+      ctx.fillRect(
+        canvas.width - gameState.paddleWidth,
+        gameState.rightPaddle.y,
+        gameState.paddleWidth,
+        gameState.paddleHeight
+      );
 
       // Move ball
-      ball.x += ball.dx;
-      ball.y += ball.dy;
+      gameState.ball.x += gameState.ball.dx;
+      gameState.ball.y += gameState.ball.dy;
 
       // Ball collision with top and bottom
-      if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-        ball.dy = -ball.dy;
+      if (
+        gameState.ball.y + gameState.ball.radius > canvas.height ||
+        gameState.ball.y - gameState.ball.radius < 0
+      ) {
+        gameState.ball.dy = -gameState.ball.dy;
       }
 
       // Ball collision with paddles
       if (
-        (ball.x - ball.radius < paddleWidth && ball.y > leftPaddle.y && ball.y < leftPaddle.y + paddleHeight) ||
-        (ball.x + ball.radius > canvas.width - paddleWidth && ball.y > rightPaddle.y && ball.y < rightPaddle.y + paddleHeight)
+        (gameState.ball.x - gameState.ball.radius < gameState.paddleWidth &&
+          gameState.ball.y > gameState.leftPaddle.y &&
+          gameState.ball.y < gameState.leftPaddle.y + gameState.paddleHeight) ||
+        (gameState.ball.x + gameState.ball.radius > canvas.width - gameState.paddleWidth &&
+          gameState.ball.y > gameState.rightPaddle.y &&
+          gameState.ball.y < gameState.rightPaddle.y + gameState.paddleHeight)
       ) {
-        ball.dx = -ball.dx;
+        gameState.ball.dx = -gameState.ball.dx;
       }
 
       // Reset ball if it goes past paddles
-      if (ball.x < 0 || ball.x > canvas.width) {
-        ball.x = canvas.width / 2;
-        ball.y = canvas.height / 2;
+      if (gameState.ball.x < 0 || gameState.ball.x > canvas.width) {
+        gameState.ball.x = canvas.width / 2;
+        gameState.ball.y = canvas.height / 2;
       }
 
       // Move paddles
-      leftPaddle.y += leftPaddle.speed * leftPaddle.direction;
-      rightPaddle.y += rightPaddle.speed * rightPaddle.direction;
+      gameState.leftPaddle.y += gameState.leftPaddle.speed * gameState.leftPaddle.direction;
+      gameState.rightPaddle.y += gameState.rightPaddle.speed * gameState.rightPaddle.direction;
 
       // Paddle collision with top and bottom
-      if (leftPaddle.y <= 0 || leftPaddle.y + paddleHeight >= canvas.height) {
-        leftPaddle.direction *= -1;
+      if (
+        gameState.leftPaddle.y <= 0 ||
+        gameState.leftPaddle.y + gameState.paddleHeight >= canvas.height
+      ) {
+        gameState.leftPaddle.direction *= -1;
       }
-      if (rightPaddle.y <= 0 || rightPaddle.y + paddleHeight >= canvas.height) {
-        rightPaddle.direction *= -1;
+      if (
+        gameState.rightPaddle.y <= 0 ||
+        gameState.rightPaddle.y + gameState.paddleHeight >= canvas.height
+      ) {
+        gameState.rightPaddle.direction *= -1;
       }
 
-      requestAnimationFrame(animate);
-    }
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
 
     // Start animation
     animate();
 
     // Cleanup
     return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
       window.removeEventListener('resize', resize);
     };
   }, []);
