@@ -1,22 +1,28 @@
 export const projects = [
   {
-    title: "Stock Analysis Web App",
-    description: "A comprehensive stock analysis tool with real-time data visualization and predictive analytics.",
-    technologies: ["React", "TypeScript", "TailwindCSS", "Node.js"],
-    link: "https://stocks.ryankanaley.com",
-  },
-  {
-    title: "Portfolio Website",
-    description: "A modern portfolio website featuring 3D graphics and interactive elements.",
+    title: "Interactive Portfolio",
+    description: "A modern portfolio website featuring Pong game animation and 3D graphics",
     technologies: ["React", "Three.js", "TailwindCSS", "Framer Motion"],
-    link: "https://ryankanaley.com",
+    link: "https://portfolio.example.com",
   },
   {
-    title: "Project 3",
-    description: "Another awesome project showcasing various technical skills.",
-    technologies: ["Next.js", "PostgreSQL", "GraphQL"],
-    link: "https://github.com/yourusername/project3",
+    title: "Data Visualization Dashboard",
+    description: "Real-time data visualization dashboard with interactive charts and filters",
+    technologies: ["React", "TypeScript", "D3.js", "Node.js"],
+    link: "https://dashboard.example.com",
   },
+  {
+    title: "Full Stack Blog Platform",
+    description: "A complete blog platform with authentication and markdown support",
+    technologies: ["React", "Node.js", "PostgreSQL", "Express"],
+    link: "https://blog.example.com",
+  },
+  {
+    title: "E-commerce Store",
+    description: "Modern e-commerce platform with real-time inventory and payment processing",
+    technologies: ["React", "Node.js", "Stripe", "MongoDB"],
+    link: "https://store.example.com",
+  }
 ];
 
 export const blogPosts = [
