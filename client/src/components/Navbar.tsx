@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Menu } from "lucide-react";
@@ -40,7 +41,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
             <Button key={item.label} variant="ghost" asChild>
-              <a href={item.href}>{item.label}</a>
+              <Link href={item.href}>{item.label}</Link>
             </Button>
           ))}
           <ThemeToggle />
@@ -59,7 +60,7 @@ export default function Navbar() {
               <div className="flex flex-col gap-4 mt-8">
                 {navItems.map((item) => (
                   <Button key={item.label} variant="ghost" asChild>
-                    <a href={item.href}>{item.label}</a>
+                    <Link href={item.href}>{item.label}</Link>
                   </Button>
                 ))}
               </div>
