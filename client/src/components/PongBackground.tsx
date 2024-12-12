@@ -81,12 +81,12 @@ export default function PongBackground() {
         // Draw ball
         ctx.beginPath();
         ctx.arc(gameState.ball.x, gameState.ball.y, gameState.ball.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(48, 102, 190, 0.2)';
+        ctx.fillStyle = 'rgba(48, 102, 190, 0.6)';
         ctx.fill();
         ctx.closePath();
 
         // Draw paddles
-        ctx.fillStyle = 'rgba(48, 102, 190, 0.15)';
+        ctx.fillStyle = 'rgba(48, 102, 190, 0.5)';
         ctx.fillRect(0, gameState.leftPaddle.y, gameState.paddleWidth, gameState.paddleHeight);
         ctx.fillRect(
           canvas.width - gameState.paddleWidth,
@@ -162,7 +162,7 @@ export default function PongBackground() {
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-10 w-full h-full">
+    <div className="fixed inset-0 -z-10 w-full h-full bg-background/95">
       <canvas 
         ref={canvasRef}
         className="w-full h-full"
