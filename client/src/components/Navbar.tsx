@@ -12,6 +12,15 @@ import {
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
 
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -24,8 +33,8 @@ export default function Navbar() {
   const navItems = [
     { label: "Home", href: "/" },
     { label: "Blog", href: "/blog" },
-    { label: "Projects", href: "/#projects" },
-    { label: "Resume", href: "/#resume" },
+    { label: "Projects", href: "#projects" },
+    { label: "Resume", href: "#resume" },
   ];
 
   return (
@@ -41,7 +50,13 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
             <Button key={item.label} variant="ghost" asChild>
-              <Link href={item.href}>{item.label}</Link>
+              {item.href.startsWith('#') ? (
+                <a href={item.href} onClick={(e) => handleScroll(e, item.href)}>
+                  {item.label}
+                </a>
+              ) : (
+                <Link href={item.href}>{item.label}</Link>
+              )}
             </Button>
           ))}
           <ThemeToggle />
@@ -60,7 +75,13 @@ export default function Navbar() {
               <div className="flex flex-col gap-4 mt-8">
                 {navItems.map((item) => (
                   <Button key={item.label} variant="ghost" asChild>
-                    <Link href={item.href}>{item.label}</Link>
+                    {item.href.startsWith('#') ? (
+                      <a href={item.href} onClick={(e) => handleScroll(e, item.href)}>
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link href={item.href}>{item.label}</Link>
+                    )}
                   </Button>
                 ))}
               </div>
