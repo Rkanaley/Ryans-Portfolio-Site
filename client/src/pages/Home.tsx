@@ -43,7 +43,7 @@ export default function Home() {
                 </Button>
                 <Button asChild variant="ghost" size="icon">
                   <a 
-                    href="https://www.linkedin.com/in/ryan-kanaley-mba" 
+                    href="https://www.linkedin.com/in/ryan-kanaley-mba/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:text-primary"
