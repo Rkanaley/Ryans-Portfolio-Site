@@ -21,7 +21,7 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      {/* Hero Section with Globe */}
+      {/* Hero Section with Pac-Man Animation */}
       <section className="relative h-screen flex items-center justify-center">
         <PacMan />
         <div className="absolute z-10 text-center">

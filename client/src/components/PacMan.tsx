@@ -72,7 +72,7 @@ export default function PacMan() {
 
       // Animation
       let time = 0;
-      function animate() {
+      const animate = () => {
         frameIdRef.current = requestAnimationFrame(animate);
         time += 0.02;
 
