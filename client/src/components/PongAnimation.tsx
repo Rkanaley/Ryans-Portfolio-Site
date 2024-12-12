@@ -23,8 +23,15 @@ const PongAnimation = () => {
     // Paddle properties
     const paddleWidth = 10;
     const paddleHeight = 100;
+    const paddleSpeed = 4;
     let leftPaddleY = canvas.height / 2 - paddleHeight / 2;
     let rightPaddleY = canvas.height / 2 - paddleHeight / 2;
+    
+    // Add smooth paddle movement
+    const movePaddle = (currentY: number, targetY: number, speed: number) => {
+      if (Math.abs(currentY - targetY) < speed) return currentY;
+      return currentY + (targetY > currentY ? speed : -speed);
+    };
 
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -49,6 +56,15 @@ const PongAnimation = () => {
       // Move the ball
       ballX += ballSpeedX;
       ballY += ballSpeedY;
+
+      // Move paddles to follow the ball
+      const paddleTargetY = Math.min(
+        Math.max(ballY - paddleHeight / 2, 0),
+        canvas.height - paddleHeight
+      );
+      
+      leftPaddleY = movePaddle(leftPaddleY, paddleTargetY, paddleSpeed);
+      rightPaddleY = movePaddle(rightPaddleY, paddleTargetY, paddleSpeed);
 
       // Ball collision with top and bottom walls
       if (ballY + ballRadius > canvas.height || ballY - ballRadius < 0) {
