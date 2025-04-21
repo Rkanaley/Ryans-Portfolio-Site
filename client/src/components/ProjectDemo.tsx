@@ -5,9 +5,10 @@ import PongBackground from './PongBackground';
 import Globe from './Globe';
 import PacMan from './PacMan';
 import NorthernLights from './NorthernLights';
+import { DemoType } from '@/lib/constants';
 
 interface ProjectDemoProps {
-  demoType: 'pong' | 'globe' | 'pacman' | 'lights';
+  demoType: DemoType;
   children: React.ReactNode;
   title?: string;
   description?: string;
