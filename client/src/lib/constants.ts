@@ -1,4 +1,14 @@
-export const projects = [
+export type DemoType = 'pong' | 'globe' | 'pacman' | 'lights';
+
+export interface Project {
+  title: string;
+  description: string;
+  technologies: string[];
+  link: string;
+  demoType?: DemoType;
+}
+
+export const projects: Project[] = [
   {
     title: "Interactive Portfolio",
     description: "A modern portfolio website featuring Pong game animation and 3D graphics",

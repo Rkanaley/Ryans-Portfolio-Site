@@ -2,13 +2,14 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import ProjectDemo from "./ProjectDemo";
+import { DemoType } from "@/lib/constants";
 
 interface ProjectCardProps {
   title: string;
   description: string;
   technologies: string[];
   link: string;
-  demoType?: 'pong' | 'globe' | 'pacman' | 'lights';
+  demoType?: DemoType;
 }
 
 export default function ProjectCard({ title, description, technologies, link, demoType }: ProjectCardProps) {
