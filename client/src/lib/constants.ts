@@ -10,32 +10,28 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    title: "Interactive Portfolio",
-    description: "A modern portfolio website featuring Pong game animation and 3D graphics",
-    technologies: ["React", "Three.js", "TailwindCSS", "Framer Motion"],
-    link: "https://portfolio.example.com",
-    demoType: "pong",
+    title: "NADM",
+    description: "Network analysis and digital marketing tool for businesses seeking data-driven growth strategies",
+    technologies: ["React", "Node.js", "Data Analysis", "Marketing"],
+    link: "https://nadm.example.com",
   },
   {
-    title: "3D Globe Visualization",
-    description: "Interactive 3D globe visualization with dynamic animations",
-    technologies: ["React", "Three.js", "WebGL", "Framer Motion"],
-    link: "https://globe.example.com",
-    demoType: "globe",
+    title: "Therapy Notes",
+    description: "Time-saving application for therapists to efficiently manage patient records and session notes",
+    technologies: ["React", "Database", "Healthcare", "Productivity"],
+    link: "https://therapynotes.example.com",
   },
   {
-    title: "PacMan Game",
-    description: "Classic PacMan game recreated with modern web technologies",
-    technologies: ["React", "Canvas API", "JavaScript", "HTML5"],
-    link: "https://pacman.example.com",
-    demoType: "pacman",
+    title: "Mammoth SOP Hub",
+    description: "Standard Operating Procedures SaaS platform for streamlining business processes and training",
+    technologies: ["SaaS", "Workflow", "Business", "Documentation"],
+    link: "https://mammothsop.example.com",
   },
   {
-    title: "Northern Lights Effect",
-    description: "WebGL-powered aurora borealis animation effect",
-    technologies: ["React", "WebGL", "GLSL", "Three.js"],
-    link: "https://lights.example.com",
-    demoType: "lights",
+    title: "Quisley",
+    description: "iOS mobile game with engaging gameplay and modern design principles",
+    technologies: ["Swift", "iOS", "Game Development", "Mobile"],
+    link: "https://quisley.example.com",
   }
 ];
 
