@@ -25,8 +25,7 @@ export default function Home() {
                 Marketing & Systems Architect
               </h2>
               <p className="text-xl text-muted-foreground mb-8">
-                Crafting seamless digital experiences through innovative development and strategic marketing. 
-                Specializing in interactive web applications and data-driven marketing solutions.
+                I Build Tools That Save Time, Scale Impact, and Actual provide ROI. I've built a time-saving app for therapists that's used in many offices, a standard operating procedures SaaS tool for, a couple stock screeners and I'm currently working on an IOS App. A game called Flappy bird, and my gets k busyness for my local marketing agency.
               </p>
               
               <div className="flex justify-center gap-4 mb-8">
