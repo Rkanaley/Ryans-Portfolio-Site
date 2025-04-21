@@ -31,7 +31,7 @@ export const projects: Project[] = [
     title: "Mammoth SOP Hub",
     description: "Standard Operating Procedures SaaS platform for streamlining business processes and training",
     technologies: ["SaaS", "Workflow", "Business", "Documentation"],
-    link: "https://mammothsop.example.com",
+    link: "https://mammothsop.com",
   },
   {
     title: "Quisley",
