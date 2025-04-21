@@ -16,6 +16,12 @@ export const projects: Project[] = [
     link: "https://nadm.example.com",
   },
   {
+    title: "Therapedia",
+    description: "AI-powered platform for mental health professionals to access and share therapeutic resources",
+    technologies: ["AI", "Healthcare", "Database", "Productivity"],
+    link: "https://therapedia.ai/",
+  },
+  {
     title: "Therapy Notes",
     description: "Time-saving application for therapists to efficiently manage patient records and session notes",
     technologies: ["React", "Database", "Healthcare", "Productivity"],
