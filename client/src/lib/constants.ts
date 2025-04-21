@@ -11,9 +11,9 @@ export interface Project {
 export const projects: Project[] = [
   {
     title: "NADM",
-    description: "Network analysis and digital marketing tool for businesses seeking data-driven growth strategies",
-    technologies: ["React", "Node.js", "Data Analysis", "Marketing"],
-    link: "https://nadm.example.com",
+    description: "Northern Arizona Digital Marketing - My marketing company providing data-driven digital strategies for local businesses",
+    technologies: ["Digital Marketing", "SEO", "Local Business", "Analytics"],
+    link: "https://nazdm.com/",
   },
   {
     title: "Therapedia",
