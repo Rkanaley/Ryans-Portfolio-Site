@@ -22,7 +22,7 @@ export default function Home() {
                 Ryan Kanaley
               </h1>
               <h2 className="text-3xl text-muted-foreground mb-8">
-                Developer & Digital Marketer
+                Marketing & Systems Architect
               </h2>
               <p className="text-xl text-muted-foreground mb-8">
                 Crafting seamless digital experiences through innovative development and strategic marketing. 
