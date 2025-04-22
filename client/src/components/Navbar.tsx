@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Menu } from "lucide-react";
@@ -7,10 +7,13 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  SheetClose,
 } from "@/components/ui/sheet";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [_, navigate] = useLocation();
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -20,7 +23,10 @@ export default function Navbar() {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }
+    // Close the mobile menu after clicking
+    setOpen(false);
   };
+  
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -29,6 +35,12 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Navigation handler that both navigates and closes the menu
+  const handleNavigation = (href: string) => {
+    navigate(href);
+    setOpen(false);
+  };
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -65,7 +77,7 @@ export default function Navbar() {
         {/* Mobile Navigation */}
         <div className="md:hidden flex items-center gap-4">
           <ThemeToggle />
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
@@ -74,15 +86,19 @@ export default function Navbar() {
             <SheetContent>
               <div className="flex flex-col gap-4 mt-8">
                 {navItems.map((item) => (
-                  <Button key={item.label} variant="ghost" asChild>
-                    {item.href.startsWith('#') ? (
-                      <a href={item.href} onClick={(e) => handleScroll(e, item.href)}>
-                        {item.label}
-                      </a>
-                    ) : (
-                      <Link href={item.href}>{item.label}</Link>
-                    )}
-                  </Button>
+                  <SheetClose key={item.label} asChild>
+                    <Button variant="ghost" asChild>
+                      {item.href.startsWith('#') ? (
+                        <a href={item.href} onClick={(e) => handleScroll(e, item.href)}>
+                          {item.label}
+                        </a>
+                      ) : (
+                        <a onClick={() => handleNavigation(item.href)}>
+                          {item.label}
+                        </a>
+                      )}
+                    </Button>
+                  </SheetClose>
                 ))}
               </div>
             </SheetContent>

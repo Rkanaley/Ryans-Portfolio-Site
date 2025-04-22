@@ -20,7 +20,7 @@ export default function AnimatedBackground() {
   }, []);
   
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden bg-background/95">
+    <div className="fixed inset-0 -z-10 overflow-hidden bg-background/95 min-h-screen">
       <div className="northern-lights">
         <div className="aurora"></div>
         <div className="aurora"></div>
