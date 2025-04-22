@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import PongAnimation from "@/components/PongAnimation";
-import { ArrowRight, ExternalLink, Twitter } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import { SiGithub, SiLinkedin } from "react-icons/si";
 import { useEffect, useState } from "react";
 import { projects } from "@/lib/constants";
@@ -108,18 +108,6 @@ export default function Home() {
                   >
                     <SiLinkedin className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                     <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 text-xs opacity-0 group-hover:opacity-100 transition-opacity">LinkedIn</span>
-                  </a>
-                </Button>
-                
-                <Button asChild variant="ghost" size="icon" className="relative group">
-                  <a 
-                    href="https://twitter.com/rkanaley" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="p-3 rounded-full transition-all duration-300 hover:bg-primary/20"
-                  >
-                    <Twitter className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-                    <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 text-xs opacity-0 group-hover:opacity-100 transition-opacity">Twitter</span>
                   </a>
                 </Button>
               </motion.div>
