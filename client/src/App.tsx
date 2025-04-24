@@ -1,28 +1,28 @@
-import { Switch, Route } from "wouter";
-import Home from "@/pages/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Blog from "@/pages/Blog";
-import Contact from "@/pages/Contact";
+import BlogPostPage from "@/pages/Blog/[slug]"; // ✅ Match folder + filename
+import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
-import { ThemeProvider } from "@/components/ui/theme-provider";
-import Navbar from "@/components/Navbar";
+import Contact from "@/pages/Contact";
 
-function App() {
+export default function App() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
-      <Navbar />
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/blog" component={Blog} />
-        <Route path="/projects" component={Projects} />
-        <Route path="/contact" component={Contact} />
-        <Route>
-          <div className="min-h-screen bg-background flex items-center justify-center">
-            <h1 className="text-4xl font-bold">404 Page Not Found</h1>
-          </div>
-        </Route>
-      </Switch>
-    </ThemeProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} /> {/* ✅ Matches the folder */}
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route
+          path="*"
+          element={
+            <div className="min-h-screen bg-background flex items-center justify-center">
+              <h1 className="text-4xl font-bold">404 Page Not Found</h1>
+            </div>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;

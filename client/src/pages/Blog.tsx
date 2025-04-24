@@ -2,6 +2,7 @@ import { blogPosts } from "@/lib/constants";
 import BlogCard from "@/components/BlogCard";
 import { motion } from "framer-motion";
 import PongBackground from "@/components/PongBackground";
+import Link from "next/link"; // ✅ Move this up here
 
 export default function Blog() {
   return (
@@ -22,7 +23,9 @@ export default function Blog() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.map((post, index) => (
-              <BlogCard key={index} {...post} />
+              <Link href={`/blog/${post.slug}`} key={index}>
+                <BlogCard {...post} />
+              </Link>
             ))}
           </div>
         </div>
